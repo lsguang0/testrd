@@ -20,3 +20,9 @@ ADD . /var/www/html/mysite1
 
 # 利用 pip 安装依赖
 RUN pip3 install -r requirements.txt
+
+ # Windows环境下编写的start.sh每行命令结尾有多余的\r字符，需移除。
+#  RUN sed -i 's/\r//' ./start.sh
+ 
+ # 设置start.sh文件可执行权限
+ RUN chmod +x ./start.sh
