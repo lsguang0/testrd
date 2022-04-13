@@ -5,5 +5,5 @@
  # 3. 用 uwsgi启动 django 服务, 不再使用python manage.py runserver
  python manage.py makemigrations&&
  python manage.py migrate&&
- uwsgi --ini /var/www/html/mysite1/uwsgi.ini
+ uwsgi --ini /var/www/html/testrd/uwsgi.ini
  # python manage.py runserver 0.0.0.0:8000
