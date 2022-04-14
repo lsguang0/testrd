@@ -28,7 +28,7 @@ services:
       - 8020:8000
     volumes:
       - . :/var/www/html/testrd # 挂载项目代码
-      - ./media:/var/www/html/testrd/media # 以数据卷挂载容器内用户上传媒体文件
+      # - ./media:/var/www/html/testrd/media # 以数据卷挂载容器内用户上传媒体文件
     links:
       - db
     depends_on: # 依赖关系
@@ -36,6 +36,7 @@ services:
     environment:
       - DEBUG=False
     restart: always
+    command: sh ./start.sh
     tty: true
     stdin_open: true
     
