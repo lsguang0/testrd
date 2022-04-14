@@ -1,0 +1,46 @@
+version: "3"
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      - MYSQL_USER=root # 数据库用户名
+      - MYSQL_ROOT_PASSWORD=123456 # 数据库密码
+      - MYSQL_DATABASE=test # 数据库名称
+
+    volumes:
+      - ./mysql/conf/my.cnf:/etc/mysql/my.cnf # 挂载配置文件
+    ports:
+      - "3306:3306" # 与配置文件保持一致
+    restart: always
+
+  web:
+    build: . # 使用目录下的Dockerfile
+    container_name: web-container
+    ports:
+      - 8020:8000
+    volumes:
+      - . :/var/www/html/testrd # 挂载项目代码
+      - ./media:/var/www/html/testrd/media # 以数据卷挂载容器内用户上传媒体文件
+    links:
+      - db
+    depends_on: # 依赖关系
+      - db
+    environment:
+      - DEBUG=False
+    restart: always
+    command: sh start.sh
+
+  nginx:
+    build: ./nginx
+    container_name: nginx-container
+    ports:
+      - "8010:80"
+    volumes:
+      - ./static:/usr/share/nginx/html/static # 挂载静态文件
+      - ./nginx/ssl:/usr/share/nginx/ssl # 挂载ssl证书目录
+      - ./nginx/log:/var/log/nginx # 挂载日志
+      - ./media:/usr/share/nginx/html/media # 挂载用户上传媒体文件
+    depends_on:
+      - web
+    restart: always
