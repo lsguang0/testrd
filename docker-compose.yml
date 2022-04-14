@@ -38,7 +38,6 @@ services:
       - "8010:80"
     volumes:
       - ./static:/usr/share/nginx/html/static # 挂载静态文件
-      - ./nginx/ssl:/usr/share/nginx/ssl # 挂载ssl证书目录
       - ./nginx/log:/var/log/nginx # 挂载日志
       - ./media:/usr/share/nginx/html/media # 挂载用户上传媒体文件
     depends_on:
