@@ -30,7 +30,6 @@ services:
 
   web:
     build: . # 使用目录下的Dockerfile
-    container_name: web-container
     ports:
       - 8020:8000
     volumes:
@@ -48,7 +47,6 @@ services:
     
   nginx:
     build: ./nginx
-    container_name: nginx-container
     ports:
       - "8010:80"
     volumes:

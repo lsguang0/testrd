@@ -3,7 +3,8 @@
 # 1. 生成数据库迁移文件
 # 2. 根据数据库迁移文件来修改数据库
 # 3. 用 uwsgi启动 django 服务, 不再使用python manage.py runserver
-while ! nc -z db 3306 ; do
+# while ! nc -z db 3306 ; do   # TODO db找不到
+while ! nc -z 10.0.16.1 3306 ; do
     echo "Waiting for the MySQL Server"
     sleep 3
 done
