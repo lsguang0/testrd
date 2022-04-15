@@ -27,3 +27,4 @@ RUN pip3 install -r requirements.txt
 # 设置start.sh文件可执行权限
 RUN chmod +x start.sh
 
+CMD [ "sh", "start.sh" ]
