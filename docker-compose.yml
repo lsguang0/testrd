@@ -1,4 +1,11 @@
 version: "3"
+
+networks: # 自定义网络(默认桥接), 不使用links通信
+  nginx_network:
+    driver: bridge
+  db_network:
+    driver: bridge
+
 services:
   db:
     image: mysql:8
@@ -28,8 +35,9 @@ services:
       - 8020:8000
     volumes:
       - .:/var/www/html/testrd # 挂载项目代码
-    links:
-      - db
+    networks:
+      - nginx_network
+      - db_network  
     depends_on: # 依赖关系
       - db
     environment:
@@ -48,6 +56,8 @@ services:
       - ./nginx/ssl:/usr/share/nginx/ssl # 挂载ssl证书目录
       - ./nginx/log:/var/log/nginx # 挂载日志
       - ./media:/usr/share/nginx/html/media # 挂载用户上传媒体文件
+    networks:
+      - nginx_network
     depends_on:
       - web
     restart: always
