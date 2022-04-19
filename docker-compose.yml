@@ -9,7 +9,8 @@ networks: # 自定义网络(默认桥接), 不使用links通信
 services:
   db:
     image: mysql:8
-    container_name: mysql8
+    container_name: testmysql
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=123456 # 数据库密码
       - MYSQL_DATABASE=test # 数据库名称
@@ -29,6 +30,8 @@ services:
 
   web:
     build: . # 使用目录下的Dockerfile
+    container_name: testrd
+    restart: always
     ports:
       - 8010:8000
     volumes:
