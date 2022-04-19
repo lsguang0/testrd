@@ -8,7 +8,6 @@ while ! nc -z 42.192.53.215 3306 ; do
     echo "Waiting for the MySQL Server"
     sleep 3
 done
-python3 manage.py collectstatic --noinput&&
 python3 manage.py makemigrations&&
 python3 manage.py migrate&&
 uwsgi --ini ./uwsgi.ini&&
