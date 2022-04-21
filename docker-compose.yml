@@ -6,8 +6,8 @@ networks: # 自定义网络(默认桥接), 不使用links通信
 
 services:
   db:
-    image: mysql:8
-    container_name: testmysql
+    image: mysql:8.0
+    container_name: rdmysql
     restart: always
     environment:
       # 数据库密码
@@ -32,7 +32,7 @@ services:
   web:
     # 使用目录下的Dockerfile
     build: .
-    container_name: testrd
+    container_name: rdweb
     restart: always
     ports:
       - 8010:8000
