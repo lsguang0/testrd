@@ -1,8 +1,6 @@
 version: "3"
 
 networks: # 自定义网络(默认桥接), 不使用links通信
-  # nginx_network:
-  #   driver: bridge
   db_network:
     driver: bridge
 
@@ -12,8 +10,10 @@ services:
     container_name: testmysql
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=123456 # 数据库密码
-      - MYSQL_DATABASE=test # 数据库名称
+      # 数据库密码
+      - MYSQL_ROOT_PASSWORD=123456
+      # 数据库名称
+      - MYSQL_DATABASE=test
     command:
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
@@ -22,42 +22,30 @@ services:
       --lower_case_table_names=1
       --max_allowed_packet=128M;
     volumes:
-      - ./mysql/conf/my.cnf:/etc/mysql/my.cnf # 挂载配置文件
-      - /home/mysql/mysql-files:/var/lib/mysql-files/
+      # 挂载配置文件
+      - ./mysql/conf/my.cnf:/etc/mysql/my.cnf
+      - ./mysql/init/init.sql:/etc/mysql/init.sql:ro
     ports:
-      - "3306:3306" # 与配置文件保持一致
-    restart: always
+      # 与配置文件保持一致
+      - "3306:3306"
 
   web:
-    build: . # 使用目录下的Dockerfile
+    # 使用目录下的Dockerfile
+    build: .
     container_name: testrd
     restart: always
     ports:
       - 8010:8000
     volumes:
-      - .:/var/www/html/testrd # 挂载项目代码
+      # 挂载项目代码
+      - .:/var/www/html/testrd
     networks:
       # - nginx_network
-      - db_network  
-    depends_on: # 依赖关系
+      - db_network 
+    # 依赖关系 
+    depends_on:
       - db
     environment:
       - DEBUG=False
-    restart: always
     tty: true
     stdin_open: true
-    
-  # nginx:
-  #   build: ./nginx
-  #   ports:
-  #     - "8010:80"
-  #   volumes:
-  #     - ./static:/usr/share/nginx/html/static # 挂载静态文件
-  #     - ./nginx/ssl:/usr/share/nginx/ssl # 挂载ssl证书目录
-  #     - ./nginx/log:/var/log/nginx # 挂载日志
-  #     - ./media:/usr/share/nginx/html/media # 挂载用户上传媒体文件
-  #   networks:
-  #     - nginx_network
-  #   depends_on:
-  #     - web
-  #   restart: always
